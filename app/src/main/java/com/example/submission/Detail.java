@@ -31,7 +31,6 @@ public class Detail extends AppCompatActivity {
 
         Intent i = getIntent();
 
-//        Picture.setImageResource(i.getIntExtra("Picture", R.drawable.ic_launcher_background));
         Glide.with(Detail.this)
                 .load(i.getIntExtra("Picture", R.drawable.ic_launcher_background))
                 .into(Picture);
