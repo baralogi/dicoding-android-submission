@@ -7,11 +7,18 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
 
 public class Detail extends AppCompatActivity {
 
     TextView DetailTitle, Detail;
     ImageView Picture;
+    ArrayList<Item> DetailItem = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,9 @@ public class Detail extends AppCompatActivity {
         Intent i = getIntent();
 
 //        Picture.setImageResource(i.getIntExtra("Picture", R.drawable.ic_launcher_background));
+        Glide.with(Detail.this)
+                .load(i.getIntExtra("Picture", R.drawable.ic_launcher_background))
+                .into(Picture);
         DetailTitle.setText(i.getStringExtra("Title"));
         Detail.setText(i.getStringExtra("Detail"));
     }

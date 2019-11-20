@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyListViewHolder>{
@@ -40,6 +43,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyListViewHold
         holder.Picture.setImageResource(Integer.valueOf(m.getPicture()));
         holder.Title.setText(String.valueOf(m.getName()));
         holder.Detail.setText(String.valueOf(m.getDetail()));
+        holder.Position.setText(String.valueOf(position));
+        Glide.with(holder.itemView.getContext())
+                .load(List_Item.get(position).getPicture())
+                .into(holder.Picture);
 
     }
 
@@ -51,27 +58,29 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyListViewHold
     public class MyListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView Picture;
-        TextView Title, Detail;
+        TextView Title, Detail, Position;
 
         public MyListViewHolder(@NonNull View itemView) {
             super(itemView);
             Picture = itemView.findViewById(R.id.img_item_photo);
             Title = itemView.findViewById(R.id.tv_item_title);
             Detail = itemView.findViewById(R.id.tv_item_detail);
+            Position = itemView.findViewById(R.id.tv_item_position);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-//            int picture = Integer.parseInt(String.valueOf(Picture));
-            String name = Title.getText().toString();
-            String detail = Detail.getText().toString();
-            Toast.makeText(mContext, "Kamu Memilih" + " " + name, Toast.LENGTH_SHORT).show();
+            int position = Integer.parseInt(Position.getText().toString());
+            String title = List_Item.get(position).getName();
+            String detail = List_Item.get(position).getDetail();
+            int picture = List_Item.get(position).getPicture();
+            Toast.makeText(mContext, "Kamu Memilih" + " " + title, Toast.LENGTH_SHORT).show();
 
             Intent i = new Intent(v.getContext(), Detail.class);
-//            i.putExtra("Picture", picture);
-            i.putExtra("Title", name);
+            i.putExtra("Picture", picture);
+            i.putExtra("Title", title);
             i.putExtra("Detail", detail);
             v.getContext().startActivity(i);
         }
